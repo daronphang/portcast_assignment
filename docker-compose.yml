@@ -1,0 +1,37 @@
+version: '3.0'
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:8.0.31
+    ports:
+      - 6033:3306
+    volumes:
+      - portcast_storage:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: portcast_is_awesome
+    networks:
+      - testing
+  webapi:
+    container_name: portcast_app_api
+    image: portcast_app
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    env_file: portcast_app/.env
+    environment:
+      - FLASK_APP=portcast_app/flask_app.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=8080
+    entrypoint: ['python3', '-m']
+    command: ['flask', 'run']
+    networks:
+      - testing
+    depends_on:
+      - mysqldb
+    links:
+      - mysqldb
+networks:
+  testing:
+volumes:
+  portcast_storage:
