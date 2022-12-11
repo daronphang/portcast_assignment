@@ -98,14 +98,14 @@ $ mysql -u root -p
 Create database and tables required for application.
 
 ```console
-mysql> CREATE DATABASE portcast_assignment;
-mysql> USE portcast_assignment;
-mysql> CREATE TABLE IF NOT EXISTS metaphorpsum_paragraphs (
+$ mysql> CREATE DATABASE portcast_assignment;
+$ mysql> USE portcast_assignment;
+$ mysql> CREATE TABLE IF NOT EXISTS metaphorpsum_paragraphs (
     uid CHAR(32) PRIMARY KEY NOT NULL,
     paragraph TEXT NOT NULL,
     created_timestamp TIMESTAMP NOT NULL DEFAULT NOW()
 );
-mysql> CREATE TABLE IF NOT EXISTS metaphorpsum_unique_keywords (
+$ mysql> CREATE TABLE IF NOT EXISTS metaphorpsum_unique_keywords (
     uid INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     keyword VARCHAR(255) NOT NULL,
     paragraph_uid CHAR(32) NOT NULL,
