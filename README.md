@@ -25,7 +25,7 @@ $ git clone
 
 **Step 3:** Setup your environment variables. Create two files called '.env' and 'test.env', and place them into the parent directory you have cloned in i.e. '/portcast_app'.
 
-### Development Env
+#### Development Env
 
 ```env
 MYSQLHOST=mysqldb
@@ -35,7 +35,7 @@ MYSQLPORT=3306
 MYSQLDATABASE=portcast_assignment
 ```
 
-### Test Env
+#### Test Env
 
 ```env
 TESTMYSQLHOST=localhost
@@ -47,32 +47,44 @@ TESTMYSQLDATABASE=testing_database
 
 ## Prerequisites
 
-### 1. Docker
+### 1. Python3
 
-Make sure Docker is installed on host machine.
+**Step 1:** Install latest Python from official repository.
+
+https://www.python.org/
+
+**Step 2:** Verify Python is installed.
+
+```console
+$ python --version
+```
+
+### 2. Docker
+
+**Step 1:** Make sure Docker is installed on host machine.
 
 https://docs.docker.com/engine/install/ubuntu/
 
-**Do not install Docker via snap as AppArmour will interfere with networking. Follow the installation steps provided by Docker for your distribution.**
+**Do not install Docker via snap as AppArmour will interfere with networking. Follow the installation steps provided by official Docker website for your distribution.**
 
 ```console
 $ sudo snap list
 $ sudo snap remove docker --purge
 ```
 
-**Step 1:** Change to the directory where your project was cloned.
+**Step 2:** Change to the directory where your project was cloned.
 
 ```console
 $ cd /home/daronphang/path/to/project
 ```
 
-**Step 2:** Start application with docker-compose.
+**Step 3:** Start application with docker-compose.
 
 ```console
 $ docker compose up -d
 ```
 
-**Step 3:** Configure database by going into the database container's bash terminal (**first-time setup only**). Container name is mysqldb (specified in docker-compose).
+**Step 4:** Configure database by going into the database container's bash terminal (**first-time setup only**). Container name is mysqldb (specified in docker-compose).
 
 To log into MySQL, use the password specified in the docker-compose file.
 
@@ -100,23 +112,28 @@ mysql> CREATE TABLE IF NOT EXISTS metaphorpsum_unique_keywords (
 );
 ```
 
-**Step 4:** You can stop application gracefully with storage persisted in Docker volume.
+**Step 5:** You can stop application gracefully with storage persisted in Docker volume.
 
 ```console
-$ docker compose stop
+$ docker compose down
 ```
 
 ## Testing
 
-Make sure the database container 'mysqldb' is running.
+**Step 1:** Make sure the database container 'mysqldb' is running.
 
 ```console
 $ docker container ls
+$ docker compose up -d  # if database container is not running
 ```
 
-**Step 1:** cd to the directory of project folder.
+**Step 2:** cd to the directory of project folder.
 
-**Step 2:** Run pytest in terminal.
+```console
+$ cd /home/daronphang/path/to/project
+```
+
+**Step 3:** Run pytest in terminal.
 
 ```console
 $ pytest
