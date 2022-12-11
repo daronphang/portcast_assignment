@@ -72,19 +72,21 @@ $ sudo snap list
 $ sudo snap remove docker --purge
 ```
 
-**Step 2:** Change to the directory where your project was cloned.
+## Running
+
+**Step 1:** Change to the directory where your project was cloned.
 
 ```console
 $ cd /home/daronphang/path/to/project
 ```
 
-**Step 3:** Start application with docker-compose.
+**Step 2:** Start application with docker-compose.
 
 ```console
 $ docker compose up -d
 ```
 
-**Step 4:** Configure database by going into the database container's bash terminal (**first-time setup only**). Container name is mysqldb (specified in docker-compose).
+**Step 3:** Configure database by going into the database container's bash terminal (**first-time setup only**). Container name is mysqldb (specified in docker-compose).
 
 To log into MySQL, use the password specified in the docker-compose file.
 
@@ -112,7 +114,7 @@ mysql> CREATE TABLE IF NOT EXISTS metaphorpsum_unique_keywords (
 );
 ```
 
-**Step 5:** You can stop application gracefully with storage persisted in Docker volume.
+**Step 4:** You can stop application gracefully with storage persisted in Docker volume.
 
 ```console
 $ docker compose down
