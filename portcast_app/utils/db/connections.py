@@ -1,5 +1,5 @@
 import logging
-import mysql.connector as mysql
+import mysql.connector as mysql_conn
 from flask import current_app, g
 from functools import wraps
 from ..custom_exc import InvalidField
@@ -20,12 +20,18 @@ def init_DB():
         _MySQLDB = MySQLSession(current_app.config['MYSQL'])
 
 
-def get_DB(db: str):
-    if db == 'MYSQL':
+def mysql(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
         if not hasattr(g, 'mysql_db'):
             g.mysql_db = _MySQLDB.get_connection()
-        return g.mysql_db
-    raise InvalidField(f'{db} instance provided is invalid')
+        
+        # flask extension doc for async
+        ensure_sync = getattr(current_app, "ensure_sync", None)
+        if ensure_sync is not None:
+            return ensure_sync(f)(*args, **kwargs)
+        return f(*args, **kwargs)
+    return wrapper
 
 
 '''
@@ -50,7 +56,7 @@ def db_transact(f):
 class MySQLSession:
 
     def __init__(self, config: dict):
-        self._conn_pool = mysql.pooling.MySQLConnectionPool(**config)
+        self._conn_pool = mysql_conn.pooling.MySQLConnectionPool(**config)
     
     def get_connection(self):
         return self._conn_pool.get_connection()

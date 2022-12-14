@@ -15,6 +15,8 @@ class Config:
     BASEDIR = basedir
     PROJECT_NAME = 'portcast_app'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'R4nd0MS3cret'
+    CACHE_TYPE = 'SimpleCache'
+    CACHE_DEFAULT_TIMEOUT = 300
 
     @staticmethod
     def init_app(app):
