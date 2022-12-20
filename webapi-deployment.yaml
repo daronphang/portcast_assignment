@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (b0ed6a2c9)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webapi
+  name: webapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: webapi
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (b0ed6a2c9)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/testing: 'true'
+        io.kompose.service: webapi
+    spec:
+      containers:
+        - args:
+            - flask
+            - run
+          command:
+            - python3
+            - -m
+          env:
+            - name: FLASK_APP
+              value: portcast_app/flask_app.py
+            - name: FLASK_RUN_HOST
+              value: 0.0.0.0
+            - name: FLASK_RUN_PORT
+              value: '8080'
+            # - name: MYSQLDATABASE
+            #   valueFrom:
+            #     secretKeyRef:
+            #       key: MYSQLDATABASE
+            #       name: portcast-secret
+            # - name: MYSQLHOST
+            #   valueFrom:
+            #     secretKeyRef:
+            #       key: MYSQLHOST
+            #       name: portcast-secret
+            # - name: MYSQLPASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       key: MYSQLPASSWORD
+            #       name: portcast-secret
+            # - name: MYSQLPORT
+            #   valueFrom:
+            #     secretKeyRef:
+            #       key: MYSQLPORT
+            #       name: portcast-secret
+            # - name: MYSQLUSERNAME
+            #   valueFrom:
+            #     secretKeyRef:
+            #       key: MYSQLUSERNAME
+            #       name: portcast-secret
+          image: daronphang/portcast_web_api # kubernetes will pull from remote repo
+          name: portcast-app-api
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}
