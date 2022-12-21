@@ -120,6 +120,24 @@ $ mysql> CREATE TABLE IF NOT EXISTS metaphorpsum_unique_keywords (
 $ docker compose down
 ```
 
+### Kubernetes
+
+For local deployment, I will be using minikube as cluster.
+
+Images are pulled from your DockerHub. Make sure the build is pushed before deploying.
+
+```console
+$ docker login -u your_username
+$ docker build -t daronphang/portcast_web_api .
+$ docker push daronphang/portcast_web_api
+```
+
+```console
+$ minikube start
+$ kubectl apply -f .
+$ minikube service webapi
+```
+
 ## Testing
 
 **Step 1:** Make sure the database container 'mysqldb' is running.

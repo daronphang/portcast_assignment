@@ -1,6 +1,7 @@
 from flask import current_app, Flask, jsonify, request, g
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
+from flask_caching import Cache
 from datetime import datetime
 import logging
 from .config import config_factory
@@ -11,6 +12,7 @@ origins = ['*']
 
 cors = CORS()
 mm = Marshmallow()
+cache = Cache()
 
 '''
 Application factory for application package. \
@@ -31,6 +33,7 @@ def create_app(config):
     # For cookies, need implement CSRF as additional security measure
     cors.init_app(app, resources={r"/*": {"origins": origins}})
     mm.init_app(app)
+    cache.init_app(app)
 
     # although docker-compose starts DB first, it does not wait for DB to be ready
     # exponential backoff for resilience
